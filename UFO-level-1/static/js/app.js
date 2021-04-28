@@ -19,29 +19,23 @@ data.forEach(sighting => {
     })
 })
 
-// select button form input
+// select button input
 var button = d3.select("#filter-btn");
-var form = d3.select("form");
-// form and button on
-//form.on('submit', runEnter);
-button.on("click", function (runEnter) {
-
+// button on
+button.on("click", function (event) {
     //prevent function
-    d3.runEnter.preventDefault();
+    d3.event.preventDefault();
+    tbody.html("");
+
     var inputElement = d3.select("#datetime");
-    var inputValue = inputElement.property("value")
+    var inputValue = inputElement.property("value");
 
-    var filterData = tableData.filter(sTime => ((Date(sTime.datetime)) > (Date(inputValue))));
-    console.log(filterData)
-
-    //tbody.html("");
-    var table = d3.select("table");
-    table.html = ("<tbody></tbody>");
-
-    filterData.forEach(function (dfilter) {
-        var trow = d3.select("tbody").append("tr");
-        Object.entries(dfilter).forEach(([key, value]) => {
-            trow.append("td").text(value);
+    var filterData = tableData.filter(tableData => tableData.datetime === inputValue);
+    filterData.forEach(function (ufoDate) {
+        var trow = tbody.append("tr");
+        Object.entries(ufoDate).forEach(function ([key, value]) {
+            var cell = trow.append("td");
+            cell.text(value);
         });
-    })
+    });
 });
